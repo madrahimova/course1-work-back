@@ -10,6 +10,7 @@ import pro.sky.course1_work_back.models.EmployeeBook;
 
 import java.util.Map;
 
+@CrossOrigin(origins = "${CLIENT}", allowedHeaders = "*")
 @RestController
 public class APIController {
     private static final int COUNT = 10;
@@ -32,7 +33,6 @@ public class APIController {
     }
 
     @GetMapping("/employees")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Map<Integer, Employee>> getEmployees() {
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -40,7 +40,6 @@ public class APIController {
     }
 
     @GetMapping("/employees/next_id")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Integer> getEmployeeNextId() {
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -48,7 +47,6 @@ public class APIController {
     }
 
     @GetMapping("/employees/{department}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Map<Integer, Employee>> getEmployeesInDepartment(@PathVariable int department) {
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -56,7 +54,6 @@ public class APIController {
     }
 
     @PostMapping("/employee")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Integer> addEmployee(@RequestBody String body) {
         Employee employee = gson.fromJson(body, Employee.class);
         HttpStatus status = employeeBook.addEmployee(employee) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
@@ -66,8 +63,7 @@ public class APIController {
     }
 
     @DeleteMapping("/employee/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Integer> addEmployee(@PathVariable int id) {
+    public ResponseEntity<Integer> deleteEmployee(@PathVariable int id) {
         HttpStatus status = employeeBook.deleteEmployee(id) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity
                 .status(status)
@@ -75,7 +71,6 @@ public class APIController {
     }
 
     @PutMapping("/employee/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Integer> alterEmployee(@RequestBody String body, @PathVariable int id) {
         Employee employee = gson.fromJson(body, Employee.class);
         HttpStatus status = employeeBook.alterEmployee(id, employee) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
@@ -85,7 +80,6 @@ public class APIController {
     }
 
     @GetMapping("/employee/min_salary")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Employee> getEmployeeWithMinSalary() {
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -93,7 +87,6 @@ public class APIController {
     }
 
     @GetMapping("/employee/max_salary")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Employee> getEmployeeWithMaxSalary() {
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -101,7 +94,6 @@ public class APIController {
     }
 
     @GetMapping("/salaries/sum")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Double> getSalarySum() {
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -109,7 +101,6 @@ public class APIController {
     }
 
     @GetMapping("/salaries/average")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Double> getAverageSalary() {
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -117,7 +108,6 @@ public class APIController {
     }
 
     @GetMapping("/salaries/average/{department}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Double> getAverageSalaryInDepartment(@PathVariable int department) {
         double salary = employeeBook.getAverageSalaryInDepartment(department);
         HttpStatus status = salary >= 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
@@ -127,7 +117,6 @@ public class APIController {
     }
 
     @GetMapping("/salaries/sum/{department}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Double> getSalarySumInDepartment(@PathVariable int department) {
         double salary = employeeBook.getSalarySumInDepartment(department);
         HttpStatus status = salary >= 0 ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
@@ -137,7 +126,6 @@ public class APIController {
     }
 
     @PutMapping("/salaries/index/{percent}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Map<Integer, Employee>> indexSalaries(@PathVariable double percent) {
         HttpStatus status = employeeBook.indexSalaries(percent) ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
         return ResponseEntity
